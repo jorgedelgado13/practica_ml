@@ -1,5 +1,6 @@
-roject:
-  type: default
+project:
+  type: website
+  output-dir: docs
 
 website:
   title: "Machine Learning"
