@@ -7,93 +7,92 @@ date: "2025-09-26"
 #     embed-resources: true
 ---
 
-# Introduccion a Altair
-
-
 ## Importar el dataset
 
 ```{python}
-import altair as alt
-from vega_datasets import data
-cars = data.cars()
-print(cars.head())
+import pandas as pd
+df_cacao = pd.read_csv('/content/drive/MyDrive/Maestria IA/ML/8.-mpceip_precio_fob_exportaciones-cacao_ago.csv', encoding='latin1')
+print(df_cacao.columns)
 ```
 
-## Visualización en Altair
-
-### Visualización scatterplot
+## Analisis Inicial
 
 ```{python}
 
-alt.Chart(cars).mark_point().encode(
-    x="Miles_per_Gallon",
-    y="Horsepower",
-    tooltip=["Name","Origin","Miles_per_Gallon","Horsepower"]
-).interactive()
-#interactive: zoom, brush
-
+display(df_cacao.head())
+df_cacao.info()
+display(df_cacao.describe())
+df_cacao = pd.read_csv('/content/drive/MyDrive/Maestria IA/ML/8.-mpceip_precio_fob_exportaciones-cacao_ago.csv', encoding='latin1', delimiter=';')
+display(df_cacao.head())
+df_cacao.info()
+display(df_cacao.describe())
 ```
 
-### Visualización scatterplot con color
+### Visualización de datos
 
 ```{python}
-alt.Chart(cars).mark_point(filled=True).encode(
-    x="Miles_per_Gallon",
-    y="Horsepower",
-    color="Origin",
-    tooltip=["Name","Origin","Miles_per_Gallon","Horsepower"]
-).interactive()
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=df_cacao, x='Semana', y='Cacao Grado 1', label='Cacao Grado 1')
+sns.lineplot(data=df_cacao, x='Semana', y='Cacao Grado 2', label='Cacao Grado 2')
+sns.lineplot(data=df_cacao, x='Semana', y='Cacao Grado 3', label='Cacao Grado 3')
+plt.title('Precio FOB de Exportaciones de Cacao por Grado a lo largo del Tiempo')
+plt.xlabel('Semana')
+plt.ylabel('Precio FOB')
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# Reshape the data for grouped bar plot
+df_cacao_melted = df_cacao.melt(id_vars=['Año', 'Mes', 'Semana', 'Fechas'],
+                                value_vars=['Cacao Grado 1', 'Cacao Grado 2', 'Cacao Grado 3'],
+                                var_name='Grado Cacao', value_name='Precio FOB')
+
+plt.figure(figsize=(15, 7))
+sns.barplot(data=df_cacao_melted, x='Semana', y='Precio FOB', hue='Grado Cacao')
+plt.title('Comparación de Precios FOB por Grado de Cacao por Semana')
+plt.xlabel('Semana')
+plt.ylabel('Precio FOB')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 ```
 
-### Visualización scatterplot con color
+### Visualización Comportamiento de los datos
 
 
 ```{python}
-alt.Chart(cars).mark_point(filled=True).encode(
-    x="Miles_per_Gallon",
-    y="Horsepower",
-    color="Origin",
-    shape="Origin",
-    tooltip=["Name","Origin","Miles_per_Gallon","Horsepower"]
-).interactive()
+plt.figure(figsize=(15, 5))
 
-```
+plt.subplot(1, 3, 1)
+sns.histplot(data=df_cacao, x='Cacao Grado 1', kde=True)
+plt.title('Distribución de Precio FOB - Cacao Grado 1')
+plt.xlabel('Precio FOB')
+plt.ylabel('Frecuencia')
 
-### Agregaciones
+plt.subplot(1, 3, 2)
+sns.histplot(data=df_cacao, x='Cacao Grado 2', kde=True)
+plt.title('Distribución de Precio FOB - Cacao Grado 2')
+plt.xlabel('Precio FOB')
+plt.ylabel('Frecuencia')
 
-Gráfico de barras
+plt.subplot(1, 3, 3)
+sns.histplot(data=df_cacao, x='Cacao Grado 3', kde=True)
+plt.title('Distribución de Precio FOB - Cacao Grado 3')
+plt.xlabel('Precio FOB')
+plt.ylabel('Frecuencia')
 
-`count()` de cada una de los origines
-```{python}
-alt.Chart(cars).mark_bar().encode(
-    alt.X('Origin',sort='-y'),
-    alt.Y('count()')
-)
+plt.tight_layout()
+plt.show()
 
-```
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=df_cacao[['Cacao Grado 1', 'Cacao Grado 2', 'Cacao Grado 3']])
+plt.title('Distribución de Precios FOB por Grado de Cacao (Boxplot)')
+plt.ylabel('Precio FOB')
+plt.tight_layout()
+plt.show()
 
-`mean()` de cada una de los origines
-
-```{python}
-alt.Chart(cars).mark_bar().encode(
-    alt.X('Origin',sort='-y'),
-    alt.Y('mean(Weight_in_lbs)'),
-    tooltip=['Origin','mean(Weight_in_lbs)']
-).properties(
-    width=200,
-    height=200
-)
-```
-
-Gráfico lineal
-
-```{python}
-alt.Chart(cars).mark_line(point=True).encode(
-    alt.X('Year'),
-    alt.Y('mean(Weight_in_lbs)'),
-    alt.Color('Origin')
-).properties(
-    width=600
-).interactive()
 ```

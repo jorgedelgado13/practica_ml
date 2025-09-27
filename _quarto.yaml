@@ -1,18 +1,26 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: docs     # <- GitHub Pages leerá desde /docs
 
 website:
-  title: "Machine Learning"
+  title: "EDA de Práctica"
+  site-url: "https://jorgedelgado13.github.io/practica_ml/"   # ajusta si es otro repo
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - href: eda.qmd
-        text: EDA
+      - href: index.ipynb
+        text: Inicio
+      # Si luego agregas más páginas:
+      # - href: analisis.ipynb
+      #   text: Análisis
+
 format:
   html:
     theme: cosmo
     toc: true
-    code-fold: true
-    fig-align: center
+
+# Opcional: evita re-ejecutar el notebook al renderizar
+execute:
+  echo: true
+  warning: false
+  message: false
+freeze: auto
