@@ -11,7 +11,7 @@ date: "2025-09-26"
 
 ```{python}
 import pandas as pd
-df_cacao = pd.read_csv("data/8.-mpceip_precio_fob_exportaciones-cacao_ago.csv")
+df_cacao = pd.read_csv(r"C:\Users\delga\practica_ML\practica_ml\data\8.-mpceip_precio_fob_exportaciones-cacao_ago.csv")
 print(df_cacao.columns)
 ```
 
@@ -22,7 +22,7 @@ print(df_cacao.columns)
 display(df_cacao.head())
 df_cacao.info()
 display(df_cacao.describe())
-df_cacao = pd.read_csv("data/8.-mpceip_precio_fob_exportaciones-cacao_ago.csv")
+df_cacao = pd.read_csv(r"C:\Users\delga\practica_ML\practica_ml\data\8.-mpceip_precio_fob_exportaciones-cacao_ago.csv")
 display(df_cacao.head())
 df_cacao.info()
 display(df_cacao.describe())
