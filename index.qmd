@@ -11,7 +11,7 @@ date: "2025-09-26"
 
 ```{python}
 import pandas as pd
-df_cacao = pd.read_csv('c:\Users\delga\Downloads\8.-mpceip_precio_fob_exportaciones-cacao_ago.csvencoding='latin1')
+df_cacao = pd.read_csv(r'c:\Users\delga\Downloads\8.-mpceip_precio_fob_exportaciones-cacao_ago.csv', encoding='latin1', delimiter=';')
 print(df_cacao.columns)
 ```
 
@@ -22,7 +22,7 @@ print(df_cacao.columns)
 display(df_cacao.head())
 df_cacao.info()
 display(df_cacao.describe())
-df_cacao = pd.read_csv('c:\Users\delga\Downloads\8.-mpceip_precio_fob_exportaciones-cacao_ago.csv', encoding='latin1', delimiter=';')
+df_cacao = pd.read_csv(r'c:\Users\delga\Downloads\8.-mpceip_precio_fob_exportaciones-cacao_ago.csv', encoding='latin1', delimiter=';')
 display(df_cacao.head())
 df_cacao.info()
 display(df_cacao.describe())
@@ -94,5 +94,4 @@ plt.title('Distribución de Precios FOB por Grado de Cacao (Boxplot)')
 plt.ylabel('Precio FOB')
 plt.tight_layout()
 plt.show()
-
 ```
